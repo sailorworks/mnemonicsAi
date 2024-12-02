@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Sparkles } from "lucide-react";
-import { Alert, AlertDescription } from "../components/ui/alert";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const HeroSection = () => {
   const [inputWords, setInputWords] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState("");
   const [requestCount, setRequestCount] = useState(() => {
-    // Initialize from localStorage if available
     return parseInt(localStorage.getItem("mnemonicRequestCount") || "0");
   });
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
@@ -17,7 +13,6 @@ const HeroSection = () => {
   const MAX_FREE_REQUESTS = 5;
 
   useEffect(() => {
-    // Update localStorage when count changes
     localStorage.setItem("mnemonicRequestCount", requestCount.toString());
   }, [requestCount]);
 
@@ -26,15 +21,6 @@ const HeroSection = () => {
 
     if (requestCount >= MAX_FREE_REQUESTS) {
       setShowAuthPrompt(true);
-      toast.info("Sign up to generate unlimited mnemonics!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
       return;
     }
 
@@ -66,7 +52,6 @@ const HeroSection = () => {
   };
 
   const handleSignIn = () => {
-    // Redirect to your auth page or trigger auth modal
     window.location.href = "/auth/signin";
   };
 
@@ -128,17 +113,19 @@ const HeroSection = () => {
               </div>
 
               {showAuthPrompt && (
-                <Alert className="bg-indigo-50 border-indigo-200">
-                  <AlertDescription className="flex justify-between items-center">
-                    <span>Sign in to generate unlimited mnemonics!</span>
+                <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+                  <div className="flex justify-between items-center">
+                    <span className="text-indigo-700">
+                      Sign in to generate unlimited mnemonics!
+                    </span>
                     <button
                       onClick={handleSignIn}
                       className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
                     >
                       Sign In
                     </button>
-                  </AlertDescription>
-                </Alert>
+                  </div>
+                </div>
               )}
 
               <button
