@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Sparkles } from "lucide-react";
+import { toast } from "sonner";
+import { useAuth } from "../contexts/AuthContext";
 
 const HeroSection = () => {
   const [inputWords, setInputWords] = useState("");
@@ -8,19 +10,28 @@ const HeroSection = () => {
   const [requestCount, setRequestCount] = useState(() => {
     return parseInt(localStorage.getItem("mnemonicRequestCount") || "0");
   });
-  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
+  const { user } = useAuth();
   const MAX_FREE_REQUESTS = 5;
 
   useEffect(() => {
-    localStorage.setItem("mnemonicRequestCount", requestCount.toString());
-  }, [requestCount]);
+    if (!user) {
+      localStorage.setItem("mnemonicRequestCount", requestCount.toString());
+    }
+  }, [requestCount, user]);
 
   const handleGenerate = async () => {
     if (!inputWords) return;
 
-    if (requestCount >= MAX_FREE_REQUESTS) {
-      setShowAuthPrompt(true);
+    if (!user && requestCount >= MAX_FREE_REQUESTS) {
+      toast.error("Free trial limit reached!", {
+        description: "Sign in to get unlimited generations",
+        action: {
+          label: "Sign In",
+          onClick: handleSignIn,
+        },
+        duration: 5000,
+      });
       return;
     }
 
@@ -42,9 +53,24 @@ const HeroSection = () => {
 
       const data = await response.json();
       setResult(data.mnemonic);
-      setRequestCount((prev) => prev + 1);
+
+      if (!user) {
+        setRequestCount((prev) => prev + 1);
+
+        if (requestCount === MAX_FREE_REQUESTS - 1) {
+          toast.warning("Last free generation!", {
+            description: "Sign in to get unlimited generations",
+            action: {
+              label: "Sign In",
+              onClick: handleSignIn,
+            },
+          });
+        }
+      }
     } catch (error) {
-      setResult("An error occurred while generating the mnemonic.");
+      toast.error("Failed to generate mnemonic", {
+        description: "Please try again later",
+      });
       console.error(error);
     } finally {
       setIsGenerating(false);
@@ -111,22 +137,6 @@ const HeroSection = () => {
                   ))}
                 </div>
               </div>
-
-              {showAuthPrompt && (
-                <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
-                  <div className="flex justify-between items-center">
-                    <span className="text-indigo-700">
-                      Sign in to generate unlimited mnemonics!
-                    </span>
-                    <button
-                      onClick={handleSignIn}
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-                    >
-                      Sign In
-                    </button>
-                  </div>
-                </div>
-              )}
 
               <button
                 onClick={handleGenerate}

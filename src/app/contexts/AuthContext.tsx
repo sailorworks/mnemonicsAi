@@ -4,6 +4,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { User } from "@supabase/supabase-js";
+import { toast } from "sonner";
 
 type AuthContextType = {
   user: User | null;
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [previousUser, setPreviousUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
 
@@ -65,6 +67,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    setPreviousUser(user);
+  }, [user]);
+
+  useEffect(() => {
+    if (user && !previousUser) {
+      toast.success("Welcome!", {
+        description: "You now have unlimited mnemonic generations",
+      });
+    }
+  }, [user, previousUser]);
 
   // Prevent hydration errors
   if (!mounted) {
