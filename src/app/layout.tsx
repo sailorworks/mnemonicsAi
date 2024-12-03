@@ -32,6 +32,14 @@ export const metadata: Metadata = {
   },
   description:
     "A tool that helps you learn everything with a help of Ai by generating mnemonics for a complex list of words for free.",
+  icons: {
+    icon: [
+      { url: "/mnemonicsAi.svg", sizes: "32x32" },
+      { url: "/mnemonicsAi.svg", sizes: "16x16" },
+    ],
+
+    shortcut: [{ url: "/favicon.ico" }],
+  },
 };
 
 export default function RootLayout({

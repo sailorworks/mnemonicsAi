@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">
-              MnemonicAI
+              mnemonicsAI
             </h3>
             <p className="text-gray-400">
               Making learning easier with AI-powered mnemonics.
@@ -20,7 +20,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>Address: Mumbai, Maharashtra</li>
               <li>Phone: +91 7977729873</li>
-              <li>Email: contact@mnemonicai.com</li>
+              <li>Email: sahilprasadroxxxx11@gmail.com</li>
             </ul>
           </div>
           <div>
@@ -40,7 +40,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p>© 2024 MnemonicAI. All rights reserved.</p>
+          <p>© 2024 mnemonicsAI. All rights reserved.</p>
         </div>
       </div>
     </footer>

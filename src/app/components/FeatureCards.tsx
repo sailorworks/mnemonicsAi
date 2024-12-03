@@ -23,7 +23,8 @@ const features = [
   {
     icon: <Star className="w-6 h-6" />,
     title: "Multiple Formats",
-    description: "Get acronyms, rhymes, and stories for better retention",
+    description:
+      "Learn using acronyms, rhymes, and stories for better retention",
   },
 ];
 
@@ -33,7 +34,7 @@ const FeatureCards = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900">
-            Why Choose MnemonicAI?
+            Why Choose mnemonicsAI?
           </h2>
           <p className="mt-4 text-gray-600">
             Supercharge your learning with our powerful features

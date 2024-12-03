@@ -5,6 +5,7 @@ import { supabase } from "../lib/supabase";
 import { useAuth } from "../contexts/AuthContext";
 import { User, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
   const { user, loading, signOut } = useAuth();
@@ -41,15 +42,26 @@ const Header = () => {
     }
   };
 
+  const LogoSection = () => (
+    <Link href="/" className="flex items-center space-x-2">
+      <Image
+        src="/mnemonicsAi.svg"
+        alt="mnemonicsAI Logo"
+        width={32}
+        height={32}
+        className="w-8 h-8"
+      />
+      <span className="text-xl font-bold text-indigo-600">mnemonicsAI</span>
+    </Link>
+  );
+
   if (loading) {
     return (
       <nav className="border-b bg-white/50 backdrop-blur-sm fixed w-full z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <span className="text-xl font-bold text-indigo-600">
-                MnemonicAI
-              </span>
+              <LogoSection />
             </div>
             <div className="flex items-center">
               <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
@@ -65,9 +77,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <span className="text-xl font-bold text-indigo-600">
-              MnemonicAI
-            </span>
+            <LogoSection />
           </div>
           <div className="flex items-center">
             {user ? (

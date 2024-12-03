@@ -15,6 +15,13 @@ const HeroSection = () => {
   const MAX_FREE_REQUESTS = 5;
 
   useEffect(() => {
+    if (user) {
+      setRequestCount(0);
+      localStorage.removeItem("mnemonicRequestCount");
+    }
+  }, [user]);
+
+  useEffect(() => {
     if (!user) {
       localStorage.setItem("mnemonicRequestCount", requestCount.toString());
     }
@@ -121,29 +128,31 @@ const HeroSection = () => {
                 onChange={(e) => setInputWords(e.target.value)}
               />
 
-              {/* Request Counter */}
-              <div className="flex justify-between items-center text-sm text-gray-600">
-                <span>
-                  Free generations remaining: {MAX_FREE_REQUESTS - requestCount}
-                </span>
-                <div className="flex gap-1">
-                  {[...Array(MAX_FREE_REQUESTS)].map((_, i) => (
-                    <div
-                      key={i}
-                      className={`w-2 h-2 rounded-full ${
-                        i < requestCount ? "bg-indigo-600" : "bg-gray-200"
-                      }`}
-                    />
-                  ))}
+              {!user && (
+                <div className="flex justify-between items-center text-sm text-gray-600">
+                  <span>
+                    Free generations remaining:{" "}
+                    {MAX_FREE_REQUESTS - requestCount}
+                  </span>
+                  <div className="flex gap-1">
+                    {[...Array(MAX_FREE_REQUESTS)].map((_, i) => (
+                      <div
+                        key={i}
+                        className={`w-2 h-2 rounded-full ${
+                          i < requestCount ? "bg-indigo-600" : "bg-gray-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <button
                 onClick={handleGenerate}
                 disabled={
                   isGenerating ||
                   !inputWords ||
-                  requestCount >= MAX_FREE_REQUESTS
+                  (!user && requestCount >= MAX_FREE_REQUESTS)
                 }
                 className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
