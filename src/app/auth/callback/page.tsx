@@ -8,14 +8,22 @@ export default function AuthCallbackPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const handleAuthCallback = async () => {
-      try {
-        const { error } = await supabase.auth.getSession();
-        if (error) throw error;
-
-        // Redirect to home page after successful authentication
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session) {
         router.push("/");
         router.refresh();
+      }
+    });
+
+    const handleAuthCallback = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error) throw error;
+
+        if (data?.session) {
+          router.push("/");
+          router.refresh();
+        }
       } catch (error) {
         console.error("Error during auth callback:", error);
         router.push("/");

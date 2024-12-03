@@ -27,7 +27,11 @@ const Header = () => {
           },
         },
       });
-      if (error) throw error;
+
+      if (error) {
+        console.error("Login error:", error.message);
+        throw error;
+      }
     } catch (error) {
       console.error("Error logging in:", error);
     }
