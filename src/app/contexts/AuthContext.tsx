@@ -61,6 +61,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
       }
       setLoading(false);
+
+      if (event === "SIGNED_IN") {
+        console.log("Signed in:", session);
+      } else if (event === "SIGNED_OUT") {
+        console.log("Signed out");
+      } else if (event === "TOKEN_REFRESHED") {
+        console.log("Token refreshed");
+      }
     });
 
     return () => {

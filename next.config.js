@@ -12,6 +12,23 @@ const nextConfig = {
             "your-domain-if-any.com", // Add if you're using external image domains
         ],
     },
+    async headers() {
+        return [
+            {
+                source: '/:path*',
+                headers: [
+                    {
+                        key: 'X-Frame-Options',
+                        value: 'DENY'
+                    },
+                    {
+                        key: 'X-Content-Type-Options',
+                        value: 'nosniff'
+                    }
+                ]
+            }
+        ]
+    }
 }
 
 module.exports = nextConfig 

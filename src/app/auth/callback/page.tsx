@@ -10,18 +10,30 @@ export default function AuthCallbackPage() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        const {
-          data: { session },
-          error,
-        } = await supabase.auth.getSession();
+        // Check for hash fragment first
+        const hashFragment = window.location.hash;
+        if (hashFragment) {
+          // Handle hash-based auth (production case)
+          const hashParams = new URLSearchParams(hashFragment.substring(1));
+          const accessToken = hashParams.get("access_token");
+          const refreshToken = hashParams.get("refresh_token");
 
-        if (error) throw error;
-
-        if (session) {
-          // Session exists, redirect to home
-          router.push("/");
-          router.refresh();
+          if (accessToken) {
+            const { error } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken || "",
+            });
+            if (error) throw error;
+          }
+        } else {
+          // Handle query-based auth (localhost case)
+          const { error } = await supabase.auth.getSession();
+          if (error) throw error;
         }
+
+        // Redirect to home page after successful authentication
+        router.push("/");
+        router.refresh();
       } catch (error) {
         console.error("Error during auth callback:", error);
         router.push("/");
