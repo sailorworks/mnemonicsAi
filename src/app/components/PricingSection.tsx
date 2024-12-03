@@ -2,8 +2,38 @@
 
 import React from "react";
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { supabase } from "../lib/supabase";
 
 const PricingSection = () => {
+  const router = useRouter();
+
+  const handleGoogleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+        },
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
+
+  const handleButtonClick = (planName: string) => {
+    if (planName === "Free") {
+      handleGoogleLogin();
+    } else {
+      router.push("/trial");
+    }
+  };
+
   const plans = [
     {
       name: "Free",
@@ -74,6 +104,7 @@ const PricingSection = () => {
                 ))}
               </ul>
               <button
+                onClick={() => handleButtonClick(plan.name)}
                 className={`mt-8 w-full py-3 px-6 rounded-lg font-medium ${
                   plan.highlighted
                     ? "bg-indigo-600 text-white hover:bg-indigo-700"
