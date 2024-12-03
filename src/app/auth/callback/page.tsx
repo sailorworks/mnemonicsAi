@@ -1,36 +1,38 @@
+// app/auth/callback/page.tsx
 "use client";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "../../lib/supabase";
+import { supabase } from "@/app/lib/supabase";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN" && session) {
-        router.push("/");
-        router.refresh();
-      }
-    });
-
-    const handleAuthCallback = async () => {
+    const handleCallback = async () => {
       try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) throw error;
+        // Get the session from URL
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
 
-        if (data?.session) {
+        if (error) {
+          throw error;
+        }
+
+        if (session) {
+          // Successful sign in
           router.push("/");
           router.refresh();
         }
       } catch (error) {
-        console.error("Error during auth callback:", error);
-        router.push("/");
+        console.error("Error in auth callback:", error);
+        router.push("/auth/error");
       }
     };
 
-    handleAuthCallback();
+    handleCallback();
   }, [router]);
 
   return (
