@@ -14,8 +14,8 @@ export default function TrialPage() {
           />
         </div>
         <p className="text-xl text-gray-700 leading-relaxed">
-          Just a chill guy constructing this page. If you like this website
-          please mention mnemonicsAi.com and{" "}
+          Just a chill page. Join my discord, there are 100+ paid users sharing,
+          growing and learning. For more details contact{" "}
           <a
             href="https://x.com/sailorworks"
             target="_blank"
@@ -24,7 +24,6 @@ export default function TrialPage() {
           >
             @sailorworks
           </a>{" "}
-          on x.com
         </p>
       </div>
     </div>

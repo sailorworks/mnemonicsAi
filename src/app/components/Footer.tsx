@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { Instagram, Twitter } from "lucide-react";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -16,20 +17,20 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4 mt-4">
               <a
-                href="https://x.com"
+                href="https://x.com/sailorworks"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors text-2xl"
               >
-                <Twitter size={24} />
+                <FaSquareXTwitter />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/sailorworks/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="hover:text-white transition-colors text-2xl"
               >
-                <Instagram size={24} />
+                <FaInstagram />
               </a>
             </div>
           </div>
