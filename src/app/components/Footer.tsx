@@ -1,6 +1,6 @@
 "use client";
-
 import React from "react";
+import { Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -14,12 +14,29 @@ const Footer = () => {
             <p className="text-gray-400">
               Making learning easier with AI-powered mnemonics.
             </p>
+            <div className="flex space-x-4 mt-4">
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+              >
+                <Twitter size={24} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+              >
+                <Instagram size={24} />
+              </a>
+            </div>
           </div>
           <div>
             <h3 className="text-white text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
-              <li>Address: Mumbai, Maharashtra</li>
-              <li>Phone: +91 7977729873</li>
+              <li>Address: Mumbai, India</li>
               <li>Email: sahilprasadroxxxx11@gmail.com</li>
             </ul>
           </div>
