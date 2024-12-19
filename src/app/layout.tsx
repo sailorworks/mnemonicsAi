@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Toaster } from "sonner";
-import JsonLdSchema from "./components/JSONLDSchema"; // Ensure this matches the actual filename.
+import JsonLdSchema from "./components/JsonLdSchema"; // Ensure this matches the actual filename.
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
