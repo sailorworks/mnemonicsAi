@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 
@@ -58,7 +59,43 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p>© 2024 mnemonicsAI. All rights reserved.</p>
+          <div className="flex justify-center items-center space-x-4">
+            {/* Product Hunt Badge */}
+            <a
+              href="https://www.producthunt.com/posts/mnemonicsai?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-mnemonicsai"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <a
+                href="https://www.producthunt.com/products/mnemonicsai?utm_source=badge-follow&utm_medium=badge&utm_souce=badge-mnemonicsai"
+                target="_blank"
+              >
+                <img
+                  src="https://api.producthunt.com/widgets/embed-image/v1/follow.svg?product_id=796305&theme=neutral"
+                  alt="mnemonicsAi - Learn&#0032;faster&#0044;&#0032;retain&#0032;longer&#0032;with&#0032;mnemonics&#0046; | Product Hunt"
+                  style={{ width: "250px", height: "54px" }}
+                  width="250"
+                  height="54"
+                />
+              </a>
+            </a>
+
+            {/* TinyLaunch Badge */}
+            <a
+              href="https://www.tinylaun.ch/launch/50"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/tinylaunch_badge_2.svg"
+                alt="TinyLaunch Badge"
+                width={250}
+                height={54}
+                className="inline-block"
+              />
+            </a>
+          </div>
+          <p className="mt-4">© 2024 mnemonicsAI. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -8,8 +8,9 @@ const nextConfig = {
     reactStrictMode: true,
     images: {
         domains: [
-            "lh3.googleusercontent.com",  // for Google auth profile images
-            "your-domain-if-any.com", // Add if you're using external image domains
+            "lh3.googleusercontent.com", // for Google auth profile images
+            "your-domain-if-any.com",   // Add if you're using external image domains
+            "api.producthunt.com"       // Added Product Hunt API domain
         ],
     },
     async headers() {
@@ -27,8 +28,8 @@ const nextConfig = {
                     }
                 ]
             }
-        ]
+        ];
     }
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig;
