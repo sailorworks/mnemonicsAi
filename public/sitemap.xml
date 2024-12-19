@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://mnemonicsai.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Trial Page -->
+  <url>
+    <loc>https://mnemonicsai.com/trial</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Future Blog Section (commented out until implemented) -->
+  <!-- 
+  <url>
+    <loc>https://mnemonicsai.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  -->
+
+  <!-- Future Knowledge Base Section (commented out until implemented) -->
+  <!-- 
+  <url>
+    <loc>https://mnemonicsai.com/knowledge-base</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  -->
+
+  <!-- Note: Auth pages like /auth/callback are intentionally excluded as they're not meant for crawling -->
+</urlset>

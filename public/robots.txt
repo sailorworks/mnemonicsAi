@@ -1,0 +1,12 @@
+# https://mnemonicsai.com/robots.txt
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+Allow: /trial
+
+# Prevent crawling of auth pages
+Disallow: /auth/
+
+# Sitemap
+Sitemap: https://mnemonicsai.com/sitemap.xml
