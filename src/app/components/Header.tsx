@@ -59,6 +59,17 @@ const Header = () => {
     </Link>
   );
 
+  const NavLinks = () => (
+    <div className="hidden md:flex items-center ml-8 space-x-6">
+      <Link
+        href="/blog"
+        className="text-gray-600 hover:text-indigo-600 font-medium transition-colors duration-200"
+      >
+        Blog
+      </Link>
+    </div>
+  );
+
   if (loading) {
     return (
       <nav className="border-b bg-white/50 backdrop-blur-sm fixed w-full z-10">
@@ -66,6 +77,7 @@ const Header = () => {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <LogoSection />
+              <NavLinks />
             </div>
             <div className="flex items-center">
               <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
@@ -82,6 +94,7 @@ const Header = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <LogoSection />
+            <NavLinks />
           </div>
           <div className="flex items-center">
             {user ? (
