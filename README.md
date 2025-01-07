@@ -11,7 +11,8 @@
 - **Frontend**: Next.js with TypeScript  
 - **Authentication**: Supabase  
 - **API Integration**: Gemini API  
-- **Styling**: Tailwind CSS  
+- **Styling**: Tailwind CSS
+- **blog**: Sanityio
 - **Deployment**: mnemonicsAi.com
 
 ## 🛠️ Getting Started  
@@ -19,7 +20,8 @@
 - Node.js (v18+ recommended)  
 - npm or yarn  
 - A Supabase account  
-- Gemini API key  
+- Gemini API key
+- sanity account
 
 ### Installation  
  Clone the repository:  
@@ -29,10 +31,17 @@
    npm install
    ```
 #### Add env file with:
+.env
 ```bash
   NEXT_PUBLIC_SUPABASE_URL=<your_supabase_url>  
   NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>  
   GEMINI_API_KEY=<your_gemini_api_key>
+```
+.env.local
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=<your_project_id>
+NEXT_PUBLIC_SANITY_DATASET="your_dataset"
+NEXT_PUBLIC_SANITY_API_VERSION=2025-01-05
 ```
 #### Start the server
 ```bash
