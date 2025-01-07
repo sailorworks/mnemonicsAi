@@ -73,7 +73,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#0a0a0a" />
         <meta name="msapplication-tap-highlight" content="no" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" type="image/svg+xml" href="/mnemonicsai.svg" />
+        <link rel="icon" type="image/svg+xml" href="/mnemonicsai.jpg" />
         <GoogleAnalytics GA_MEASUREMENT_ID="G-ZD02CQFRPP" />
       </head>
       <body
