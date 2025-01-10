@@ -95,7 +95,7 @@ const Footer = () => {
               />
             </a>
           </div>
-          <p className="mt-4">© 2024 mnemonicsAI. All rights reserved.</p>
+          <p className="mt-4">© 2025 mnemonicsAI. All rights reserved.</p>
         </div>
       </div>
     </footer>
