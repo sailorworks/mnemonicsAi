@@ -10,10 +10,11 @@ export class MnemonicController {
   private apiKey: string;
   private readonly examples: ExamplePrompt[] = [
     {
-      context: "To remember the first 10 elements of the periodic table",
+      context: "To remember the first ten elements of the periodic table",
       input:
-        "Hydrogen (H), Helium (He), Lithium (Li), Beryllium (Be), Boron (B), Carbon (C), Nitrogen (N), Oxygen (O), Fluorine (F), and Neon (Ne)",
-      expected: "Hi Hello Listen B B C News On Friday Night",
+        "Hydrogen, Helium, Lithium, Beryllium, Boron, Carbon, Nitrogen, Oxygen, Fluorine, Neon",
+      expected:
+        "Happy Henry Likes Beans Brown, Crispy, Not Overly Fried, Nonetheless",
     },
     {
       context: "To remember lakes according to their flow from West to East",
@@ -22,9 +23,18 @@ export class MnemonicController {
     },
     {
       context: "To remember the planets in order",
-      input:
-        "M-Mercury, V-Venus, E-Earth, M-Mars, J-Jupiter, S-Saturn, U-Uranus, N-Neptune",
+      input: "Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune",
       expected: "My Very Energetic Mother Just Served Us Noodles",
+    },
+    {
+      context: "To remember the taxonomy hierarchy",
+      input: "Kingdom, Phylum, Class, Order, Family, Genus, Species",
+      expected: "Keep Pots Clean, Otherwise Family Gets Sick",
+    },
+    {
+      context: "To remember state functions",
+      input: "Enthalpy, Entropy, Gibbs free energy, Heat, Temperature",
+      expected: "Elephant has Short Green Tongue",
     },
   ];
 
@@ -36,8 +46,21 @@ export class MnemonicController {
     this.apiKey = apiKey;
   }
 
-  private createFewShotPrompt(input: string, isSequential: boolean): string {
-    const examples = this.examples
+  private selectRelevantExamples(input: string): ExamplePrompt[] {
+    // Select examples with similar length to input
+    const inputLength = input.split(",").length;
+    const examples = [...this.examples].sort((a, b) => {
+      const aDiff = Math.abs(a.input.split(",").length - inputLength);
+      const bDiff = Math.abs(b.input.split(",").length - inputLength);
+      return aDiff - bDiff;
+    });
+
+    return examples.slice(0, 2);
+  }
+
+  private createFewShotPrompt(input: string): string {
+    const selectedExamples = this.selectRelevantExamples(input);
+    const examples = selectedExamples
       .map(
         (example) => `Context: ${example.context}
 Input: ${example.input}
@@ -46,55 +69,36 @@ Expected Mnemonic: ${example.expected}
       )
       .join("\n\n");
 
-    const firstLetters = input
-      .split(",")
-      .map((item) => item.trim()[0].toUpperCase())
-      .join("");
+    const items = input.split(",").map((item) => item.trim());
+    const firstLetters = items.map((item) => item[0].toUpperCase()).join("");
 
-    const promptTemplate = isSequential
-      ? `Given these example mnemonics:
+    return `Create a simple, easy-to-remember mnemonic device.
 
-${examples}
-
-Now, create a mnemonic device for remembering this sequence: ${input}
-
-Requirements:
-1. Create a sentence where each word starts with the same letter as the sequence in order (${firstLetters})
-2. Make it memorable and easy to recall
-3. Ensure it follows the style of the examples above
-
-Output format:
-Letter-Based Sentence: [creative sentence with words starting with ${firstLetters}]`
-      : `Given these example mnemonics:
+Given these example mnemonics:
 
 ${examples}
 
-Now, create a mnemonic for this list: ${input}
+For this list: ${input}
+
+The first letters are: ${firstLetters}
 
 Requirements:
-1. Create an acronym using the first letters of each item (${firstLetters})
-2. Create a memorable sentence where each word starts with the letters of the acronym
-3. Ensure it follows the style of the examples above
+1. Create a simple sentence using common, everyday words
+2. Each word should start with one of these letters in order: ${firstLetters}
+3. The sentence should:
+   - Be easy to remember
+   - Use simple, familiar words
+   - Make sense as a complete thought (even if silly or imaginative)
+   - Ideally have the same number of words as the input items (${items.length})
+4. Avoid:
+   - Complex or technical terms
+   - Subject-specific terminology
+   - Overly long sentences
 
 Output format:
-Acronym: [acronym from ${firstLetters}]
-Sentence: [creative and memorable sentence using the acronym]`;
+Mnemonic: [Your simple, memorable sentence]
 
-    return promptTemplate;
-  }
-
-  private determinePromptType(input: string): string {
-    const processKeywords = [
-      "steps",
-      "process",
-      "sequence",
-      "phases",
-      "stages",
-    ];
-    const isProcess = processKeywords.some((keyword) =>
-      input.toLowerCase().includes(keyword)
-    );
-    return this.createFewShotPrompt(input, isProcess);
+Remember: Simpler is better. Think everyday situations, common objects, or familiar activities.`;
   }
 
   private async callGeminiAPI(prompt: string): Promise<string> {
@@ -111,8 +115,8 @@ Sentence: [creative and memorable sentence using the acronym]`;
         },
       ],
       generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 200,
+        temperature: 0.7, // Increased for more creative, everyday phrases
+        maxOutputTokens: 300,
       },
     };
 
@@ -152,21 +156,18 @@ Sentence: [creative and memorable sentence using the acronym]`;
       throw new Error("Please provide input to generate a mnemonic");
     }
 
-    const systemContext =
-      "You are an expert mnemonic device creator. Your task is to create mnemonic devices that are strictly based on the input format and follow the style of the provided examples.";
-
-    const fullPrompt = `${systemContext}\n\n${this.determinePromptType(
-      prompt
-    )}`;
-
     try {
-      const response = await this.callGeminiAPI(fullPrompt);
-      if (!response.match(/Acronym:|Letter-Based Sentence:/)) {
-        throw new Error("Response does not match expected mnemonic format.");
+      const response = await this.callGeminiAPI(
+        this.createFewShotPrompt(prompt)
+      );
+
+      const mnemonicMatch = response.match(/Mnemonic:\s*(.+)/i);
+      if (!mnemonicMatch) {
+        throw new Error("Response does not contain a valid mnemonic.");
       }
 
       return {
-        mnemonic: response.trim(),
+        mnemonic: mnemonicMatch[1].trim(),
       };
     } catch (error) {
       throw error instanceof Error ? error : new Error(String(error));
