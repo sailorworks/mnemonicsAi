@@ -21,7 +21,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://mnemonicsai.com"),
   title: {
-    default: "MnemonicsAI - AI-Powered Memory & Learning Techniques",
+    default: "MnemonicsAI - AI-Powered mnemonic generator",
     template: "%s | MnemonicsAI - Smart Memory Enhancement Tools",
   },
   description:
