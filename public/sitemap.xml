@@ -3,7 +3,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://mnemonicsai.com/</loc>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
@@ -15,14 +15,21 @@
   </url>
 
   <!-- Future Blog Section (commented out until implemented) -->
-  <!-- 
-  <url>
-    <loc>https://mnemonicsai.com/blog</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  -->
-
+  
+     <!-- Individual Blog Posts -->
+    <!-- Add your blog post URLs here, following this format: -->
+    <url>
+        <loc>https://mnemonicsai.com/blog/how-mnemonicsai-com-can-be-used-to-create-mnemonics</loc>
+        <lastmod>2024-01-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://mnemonicsai.com/blog/why-should-you-use-mnemonics-to-learn-complex-lists-of-words</loc>
+        <lastmod>2024-01-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
   <!-- Future Knowledge Base Section (commented out until implemented) -->
   <!-- 
   <url>

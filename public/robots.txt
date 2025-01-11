@@ -1,12 +1,20 @@
-# https://mnemonicsai.com/robots.txt
+# robots.txt for https://mnemonicsai.com
+# Last updated: 2024-01-11
 
 # Allow all crawlers
 User-agent: *
+
+# Allow main pages
 Allow: /
 Allow: /trial
+Allow: /blog
+Allow: /blog/*
 
-# Prevent crawling of auth pages
-Disallow: /auth/
+# Prevent crawling of authentication and API routes
+Disallow: /auth/*
+Disallow: /api/*
+Disallow: /_next/*
+Disallow: /*?*  # Prevent crawling of URLs with query parameters
 
-# Sitemap
+# Sitemaps
 Sitemap: https://mnemonicsai.com/sitemap.xml
