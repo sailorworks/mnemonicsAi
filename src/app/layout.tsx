@@ -27,15 +27,36 @@ export const metadata: Metadata = {
   description:
     "Transform your learning experience with AI-powered mnemonics, spaced repetition, and smart memory techniques. Perfect for students, professionals, and lifelong learners seeking effective memorization tools.",
   keywords: [
-    "memory techniques",
+    "mnemonic generator",
+    "create mnemonics",
     "mnemonic devices",
-    "AI learning tools",
-    "spaced repetition",
-    "memorization tricks",
-    "study techniques",
-    "memory improvement",
-    "smart study tools",
-    "educational technology",
+    "AI mnemonic maker",
+    "memory techniques",
+    "free mnemonic maker",
+    "memory tricks that work",
+    "study mnemonics",
+    "medical mnemonics",
+    "learning mnemonics",
+    "memory improvement tools",
+    "AI memory tools",
+    "artificial intelligence learning",
+    "smart study aids",
+    "AI-powered mnemonics",
+    "Generate mnemonics with AI",
+    "AI-generated mnemonics",
+    "ai statement generator",
+    "how to remember lists easily",
+    "create memory devices online",
+    "automatic mnemonic generator",
+    "Generate unlimited mnemonics for free",
+    "how are mnemonics created",
+    "mnemonic maker that makes sense",
+    "how to learn using mnemonics",
+    "how to study using mnemonics",
+    "how to remember lists",
+    "mnemonic generator from letters that makes sense",
+    "mnemonic generator for kids",
+    "using mnemonics to improve your memory",
   ],
   robots: {
     index: true,
@@ -50,6 +71,29 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://mnemonicsai.com",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://mnemonicsai.com",
+    title: "Create Memorable Mnemonics Instantly with AI",
+    description:
+      "Transform any list or information into memorable mnemonics. Perfect for studying, learning, and remembering important information.",
+    images: [
+      {
+        url: "/og-image.png", // Next.js will automatically prefix with your domain
+        width: 1200,
+        height: 630,
+        alt: "MnemonicsAI - AI-Powered Mnemonic Generator",
+      },
+    ],
+    siteName: "MnemonicsAI",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Remember everything with AI-powered mnemonics",
+    description:
+      "Transform any list of words or concepts into memorable mnemonics instantly. Learn faster, retain longer.",
+    images: ["/og-image.png"],
   },
 };
 
