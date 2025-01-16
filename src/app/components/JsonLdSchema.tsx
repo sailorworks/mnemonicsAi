@@ -7,9 +7,9 @@ const JsonLdSchema = () => {
       {
         "@type": "WebApplication",
         "@id": "https://mnemonicsai.com/#software",
-        name: "MnemonicsAI",
+        name: "MnemonicsAI - AI-Powered mnemonic generator",
         description:
-          "Transform your learning experience with AI-powered mnemonics, spaced repetition, and smart memory techniques. Perfect for students, professionals, and lifelong learners seeking effective memorization tools.",
+          "Transform any list of words or concepts into memorable mnemonics instantly. Learn faster, retain longer.",
         applicationCategory: "EducationalApplication",
         operatingSystem: "Any",
         offers: {
@@ -43,11 +43,11 @@ const JsonLdSchema = () => {
       {
         "@type": "Organization",
         "@id": "https://mnemonicsai.com/#organization",
-        name: "MnemonicsAI",
+        name: "MnemonicsAI - AI-Powered mnemonic generator",
         url: "https://mnemonicsai.com",
         logo: {
           "@type": "ImageObject",
-          url: "https://mnemonicsai.com/mnemonicsai.jpg",
+          url: "https://mnemonicsai.com/android-chrome-512x512.png",
           width: 512,
           height: 512,
         },
@@ -62,7 +62,7 @@ const JsonLdSchema = () => {
         "@id": "https://mnemonicsai.com/#website",
         name: "MnemonicsAI - AI-Powered mnemonic generator",
         description:
-          "Transform your learning experience with AI-powered mnemonics, spaced repetition, and smart memory techniques. Perfect for students, professionals, and lifelong learners seeking effective memorization tools.",
+          "Transform any list of words or concepts into memorable mnemonics instantly. Learn faster, retain longer.",
         url: "https://mnemonicsai.com",
       },
       {

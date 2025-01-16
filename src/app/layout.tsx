@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Toaster } from "sonner";
-import JsonLdSchema from "./components/JsonLdSchema"; // Ensure this matches the actual filename.
+import JsonLdSchema from "./components/JsonLdSchema";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 
 const geistSans = localFont({
@@ -22,10 +22,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://mnemonicsai.com"),
   title: {
     default: "MnemonicsAI - AI-Powered mnemonic generator",
-    template: "%s | MnemonicsAI - Smart Memory Enhancement Tools",
+    template: "%s | MnemonicsAI - Generate mnemonics with AI",
   },
   description:
-    "Transform your learning experience with AI-powered mnemonics, spaced repetition, and smart memory techniques. Perfect for students, professionals, and lifelong learners seeking effective memorization tools.",
+    "Transform any list of words or concepts into memorable mnemonics instantly. Learn faster, retain longer.",
   keywords: [
     "mnemonic generator",
     "create mnemonics",
@@ -37,9 +37,6 @@ export const metadata: Metadata = {
     "study mnemonics",
     "medical mnemonics",
     "learning mnemonics",
-    "memory improvement tools",
-    "AI memory tools",
-    "artificial intelligence learning",
     "smart study aids",
     "AI-powered mnemonics",
     "Generate mnemonics with AI",
@@ -75,25 +72,25 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://mnemonicsai.com",
-    title: "Create Memorable Mnemonics Instantly with AI",
+    title: "AI-Powered mnemonic generator",
     description:
-      "Transform any list or information into memorable mnemonics. Perfect for studying, learning, and remembering important information.",
+      "Transform any list of words or concepts into memorable mnemonics instantly. Learn faster, retain longer.",
     images: [
       {
-        url: "/og-image.png", // Next.js will automatically prefix with your domain
+        url: "https://mnemonicsai.com/og-image.png",
         width: 1200,
-        height: 630,
+        height: 536,
         alt: "MnemonicsAI - AI-Powered Mnemonic Generator",
       },
     ],
-    siteName: "MnemonicsAI",
+    siteName: "MnemonicsAI - AI-Powered mnemonic generator",
   },
   twitter: {
     card: "summary_large_image",
     title: "Remember everything with AI-powered mnemonics",
     description:
       "Transform any list of words or concepts into memorable mnemonics instantly. Learn faster, retain longer.",
-    images: ["/og-image.png"],
+    images: ["https://mnemonicsai.com/og-image.png"],
   },
 };
 
@@ -116,8 +113,40 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#0a0a0a" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" type="image/svg+xml" href="/mnemonicsai.jpg" />
+        <meta name="theme-color" content="#0a0a0a" />
+
+        {/* Icons and Favicons */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="96x96"
+          href="/favicon-96x96.png"
+        />
+        <link rel="icon" type="image/svg+xml" href="/mnemonics.svg" />
+        <link rel="icon" type="image/x-icon" href="/mnemonics.ico" />
+
+        {/* Android Icons */}
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/android-chrome-192x192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href="/android-chrome-512x512.png"
+        />
+
+        {/* Web Manifest */}
+        <link rel="manifest" href="/site.webmanifest" />
+
         <GoogleAnalytics GA_MEASUREMENT_ID="G-ZD02CQFRPP" />
       </head>
       <body

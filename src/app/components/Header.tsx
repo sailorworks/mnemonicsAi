@@ -49,13 +49,13 @@ const Header = () => {
   const LogoSection = () => (
     <Link href="/" className="flex items-center space-x-2">
       <Image
-        src="/mnemonicsAi.svg"
-        alt="mnemonicsAI Logo"
+        src="/mnemonics.svg"
+        alt="MnemonicsAI Logo"
         width={32}
         height={32}
         className="w-8 h-8"
       />
-      <span className="text-xl font-bold text-indigo-600">mnemonicsAI</span>
+      <span className="text-xl font-bold text-indigo-600">MnemonicsAI</span>
     </Link>
   );
 

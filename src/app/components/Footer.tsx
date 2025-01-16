@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaSquareXTwitter, FaGithub } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
@@ -32,6 +32,15 @@ const Footer = () => {
                 className="hover:text-white transition-colors text-2xl"
               >
                 <FaInstagram />
+              </a>
+              <a
+                href="https://github.com/sailorworks/mnemonicsAi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors text-2xl flex items-center gap-1"
+              >
+                <FaGithub />
+                <span className="text-sm">Star on GitHub</span>
               </a>
             </div>
           </div>
