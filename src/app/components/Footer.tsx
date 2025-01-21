@@ -55,12 +55,18 @@ const Footer = () => {
             <h3 className="text-white text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:text-white">
+                <a
+                  href="https://mnemonicsai.com/privacy-policy"
+                  className="hover:text-white"
+                >
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white">
+                <a
+                  href="https://mnemonicsai.com/terms-of-service"
+                  className="hover:text-white"
+                >
                   Terms of Service
                 </a>
               </li>
