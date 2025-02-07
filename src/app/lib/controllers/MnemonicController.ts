@@ -36,6 +36,12 @@ export class MnemonicController {
       input: "Enthalpy, Entropy, Gibbs free energy, Heat, Temperature",
       expected: "Elephant has Short Green Tongue",
     },
+    {
+      context: "To remember steps in the Krebs cycle",
+      input:
+        "Citrate, Isocitrate, α-Ketoglutarate, Succinyl-CoA, Succinate, Fumarate, Malate, Oxaloacetate",
+      expected: "Clever Insects Keep Showing Such Funny Moving Objects",
+    },
   ];
 
   constructor() {
@@ -46,12 +52,18 @@ export class MnemonicController {
     this.apiKey = apiKey;
   }
 
+  private cleanInput(input: string): string[] {
+    return input
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item.length > 0);
+  }
+
   private selectRelevantExamples(input: string): ExamplePrompt[] {
-    // Select examples with similar length to input
-    const inputLength = input.split(",").length;
+    const inputLength = this.cleanInput(input).length;
     const examples = [...this.examples].sort((a, b) => {
-      const aDiff = Math.abs(a.input.split(",").length - inputLength);
-      const bDiff = Math.abs(b.input.split(",").length - inputLength);
+      const aDiff = Math.abs(this.cleanInput(a.input).length - inputLength);
+      const bDiff = Math.abs(this.cleanInput(b.input).length - inputLength);
       return aDiff - bDiff;
     });
 
@@ -69,7 +81,12 @@ Expected Mnemonic: ${example.expected}
       )
       .join("\n\n");
 
-    const items = input.split(",").map((item) => item.trim());
+    const items = this.cleanInput(input);
+
+    if (items.length === 0) {
+      throw new Error("Please provide valid input items separated by commas");
+    }
+
     const firstLetters = items.map((item) => item[0].toUpperCase()).join("");
 
     return `Create a simple, easy-to-remember mnemonic device.
@@ -78,7 +95,7 @@ Given these example mnemonics:
 
 ${examples}
 
-For this list: ${input}
+For this list: ${items.join(", ")}
 
 The first letters are: ${firstLetters}
 
@@ -115,7 +132,7 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
         },
       ],
       generationConfig: {
-        temperature: 0.7, // Increased for more creative, everyday phrases
+        temperature: 0.7,
         maxOutputTokens: 300,
       },
     };
@@ -137,14 +154,15 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
       }
 
       const data = await response.json();
-      if (!data.candidates?.[0]?.content?.parts?.[0]?.text) {
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!text) {
         throw new Error("Invalid response format from Gemini API");
       }
 
-      return data.candidates[0].content.parts[0].text;
+      return text;
     } catch (error) {
-      console.error("Gemini API Error:", error);
-      throw error;
+      throw error instanceof Error ? error : new Error(String(error));
     }
   }
 
