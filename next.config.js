@@ -1,3 +1,5 @@
+import lingoCompiler from "lingo.dev/compiler";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
@@ -9,36 +11,47 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: 'lh3.googleusercontent.com'
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
             },
             {
-                protocol: 'https',
-                hostname: 'api.producthunt.com'
+                protocol: "https",
+                hostname: "api.producthunt.com",
             },
             {
-                protocol: 'https',
-                hostname: 'cdn.sanity.io'
-            }
-        ]
+                protocol: "https",
+                hostname: "cdn.sanity.io",
+            },
+        ],
     },
     async headers() {
         return [
             {
-                source: '/:path*',
+                source: "/:path*",
                 headers: [
                     {
-                        key: 'X-Frame-Options',
-                        value: 'DENY'
+                        key: "X-Frame-Options",
+                        value: "DENY",
                     },
                     {
-                        key: 'X-Content-Type-Options',
-                        value: 'nosniff'
-                    }
-                ]
-            }
+                        key: "X-Content-Type-Options",
+                        value: "nosniff",
+                    },
+                ],
+            },
         ];
-    }
-}
+    },
+};
 
-module.exports = nextConfig;
+const withLingo = lingoCompiler.next({
+    sourceRoot: "src/app", // Set to your app directory
+    lingoDir: "lingo",
+    sourceLocale: "en",
+    targetLocales: ["es"], // Example: Add Spanish as a target locale
+    rsc: true, // Required for Next.js App Router
+    useDirective: false,
+    debug: false,
+    models: "lingo.dev",
+});
+
+export default withLingo(nextConfig);

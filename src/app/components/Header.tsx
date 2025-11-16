@@ -6,6 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { User, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { LocaleSwitcher } from "lingo.dev/react/client";
 
 const Header = () => {
   const { user, loading, signOut } = useAuth();
@@ -96,7 +97,11 @@ const Header = () => {
             <LogoSection />
             <NavLinks />
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center space-x-4">
+            {/* --- Lingo.dev Locale Switcher --- */}
+            <LocaleSwitcher locales={["en", "es"]} />
+            {/* ---------------------------------- */}
+
             {user ? (
               <div className="relative">
                 <button

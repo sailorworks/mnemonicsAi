@@ -5,6 +5,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { Toaster } from "sonner";
 import JsonLdSchema from "./components/JsonLdSchema";
 import GoogleAnalytics from "./components/GoogleAnalytics";
+import { LingoProvider, loadDictionary } from "lingo.dev/react/rsc";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,6 +20,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
+  // ... your metadata remains unchanged
   metadataBase: new URL("https://mnemonicsai.com"),
   title: {
     default: "MnemonicsAI - AI-Powered mnemonic generator",
@@ -100,63 +102,65 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      itemScope
-      itemType="https://schema.org/WebApplication"
-    >
-      <head>
-        <JsonLdSchema />
-        <meta name="application-name" content="MnemonicsAI" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="msapplication-TileColor" content="#0a0a0a" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="theme-color" content="#0a0a0a" />
-
-        {/* Icons and Favicons */}
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="96x96"
-          href="/favicon-96x96.png"
-        />
-        <link rel="icon" type="image/svg+xml" href="/mnemonics.svg" />
-        <link rel="icon" type="image/x-icon" href="/mnemonics.ico" />
-
-        {/* Android Icons */}
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href="/android-chrome-192x192.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="512x512"
-          href="/android-chrome-512x512.png"
-        />
-
-        {/* Web Manifest */}
-        <link rel="manifest" href="/site.webmanifest" />
-
-        <GoogleAnalytics GA_MEASUREMENT_ID="G-ZD02CQFRPP" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+    <LingoProvider loadDictionary={(locale) => loadDictionary(locale)}>
+      <html
+        lang="en"
+        suppressHydrationWarning
         itemScope
-        itemType="https://schema.org/WebPage"
+        itemType="https://schema.org/WebApplication"
       >
-        <AuthProvider>{children}</AuthProvider>
-        <Toaster richColors position="top-center" />
-      </body>
-    </html>
+        <head>
+          <JsonLdSchema />
+          <meta name="application-name" content="MnemonicsAI" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="msapplication-TileColor" content="#0a0a0a" />
+          <meta name="msapplication-tap-highlight" content="no" />
+          <meta name="theme-color" content="#0a0a0a" />
+
+          {/* Icons and Favicons */}
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/favicon-96x96.png"
+          />
+          <link rel="icon" type="image/svg+xml" href="/mnemonics.svg" />
+          <link rel="icon" type="image/x-icon" href="/mnemonics.ico" />
+
+          {/* Android Icons */}
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="192x192"
+            href="/android-chrome-192x192.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="512x512"
+            href="/android-chrome-512x512.png"
+          />
+
+          {/* Web Manifest */}
+          <link rel="manifest" href="/site.webmanifest" />
+
+          <GoogleAnalytics GA_MEASUREMENT_ID="G-ZD02CQFRPP" />
+        </head>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+          itemScope
+          itemType="https://schema.org/WebPage"
+        >
+          <AuthProvider>{children}</AuthProvider>
+          <Toaster richColors position="top-center" />
+        </body>
+      </html>
+    </LingoProvider>
   );
 }

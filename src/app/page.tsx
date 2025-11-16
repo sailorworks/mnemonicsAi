@@ -1,4 +1,5 @@
-"use client";
+// "use client"; // <--- REMOVE THIS LINE
+
 import React from "react";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
