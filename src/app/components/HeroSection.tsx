@@ -137,6 +137,12 @@ const HeroSection = () => {
                   placeholder="Enter words or concepts to memorize (e.g., Mercury, Venus, Earth, Mars...)"
                   value={inputWords}
                   onChange={(e) => setInputWords(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleGenerate();
+                    }
+                  }}
                 />
 
                 {!user && (
