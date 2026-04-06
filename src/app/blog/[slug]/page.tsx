@@ -5,6 +5,8 @@ import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface Post {
   _id: string;
   title: string;
@@ -99,14 +101,5 @@ export default async function BlogPost({ params }: PageProps) {
   );
 }
 
-export async function generateStaticParams() {
-  const query = groq`*[_type == "post" && defined(slug.current)]{
-    "slug": slug.current
-  }`;
+export const dynamicParams = true;
 
-  const slugs = await client.fetch<Array<{ slug: string }>>(query);
-
-  return slugs.map((slug) => ({
-    slug: slug.slug,
-  }));
-}
