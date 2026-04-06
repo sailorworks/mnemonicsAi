@@ -8,8 +8,8 @@ import Image from "next/image";
 import { Suspense } from "react";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
-// Force static rendering
-export const dynamic = "force-static";
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
 
 interface Post {
   _id: string;
@@ -103,12 +103,3 @@ export default async function BlogPage() {
   );
 }
 
-export const revalidate = 3600;
-
-// Removed export const runtime = 'edge' since we can't use it with generateStaticParams
-export async function generateStaticParams() {
-  const posts = await getPosts();
-  return posts.map((post) => ({
-    slug: post.slug.current,
-  }));
-}

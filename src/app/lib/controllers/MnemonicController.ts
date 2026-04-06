@@ -7,7 +7,6 @@ interface ExamplePrompt {
 }
 
 export class MnemonicController {
-  private apiKey: string;
   private readonly examples: ExamplePrompt[] = [
     {
       context: "To remember the first ten elements of the periodic table",
@@ -45,11 +44,14 @@ export class MnemonicController {
   ];
 
   constructor() {
-    const apiKey = process.env.GEMINIAI_API_KEY;
+  }
+
+  private getApiKey(): string {
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY is not set in environment variables");
     }
-    this.apiKey = apiKey;
+    return apiKey;
   }
 
   private cleanInput(input: string): string[] {
@@ -119,6 +121,7 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
   }
 
   private async callGeminiAPI(prompt: string): Promise<string> {
+    const apiKey = this.getApiKey();
     const url =
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent";
     const payload = {
@@ -138,7 +141,7 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
     };
 
     try {
-      const response = await fetch(`${url}?key=${this.apiKey}`, {
+      const response = await fetch(`${url}?key=${apiKey}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -193,4 +196,13 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
   }
 }
 
-export const mnemonicController = new MnemonicController();
+let _mnemonicController: MnemonicController | null = null;
+
+export const mnemonicController = {
+  get instance(): MnemonicController {
+    if (!_mnemonicController) {
+      _mnemonicController = new MnemonicController();
+    }
+    return _mnemonicController;
+  }
+};
