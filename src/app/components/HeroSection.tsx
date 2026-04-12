@@ -28,7 +28,10 @@ const HeroSection = () => {
   }, [requestCount, user]);
 
   const handleGenerate = async () => {
-    if (!inputWords) return;
+    if (!inputWords) {
+      toast.error("Please enter a word first");
+      return;
+    }
 
     if (!user && requestCount >= MAX_FREE_REQUESTS) {
       toast.error("Free trial limit reached!", {
