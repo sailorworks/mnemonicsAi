@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Check } from "lucide-react";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase";
 
@@ -30,7 +31,7 @@ const PricingSection = () => {
     if (planName === "Free") {
       handleGoogleLogin();
     } else {
-      router.push("/trial");
+      router.push("/checkout");
     }
   };
 
@@ -67,53 +68,79 @@ const PricingSection = () => {
   ];
 
   return (
-    <div className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-24 bg-background relative">
+      <div className="absolute inset-0 bg-grid-slate-200 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:[mask-image:linear-gradient(0deg,black,rgba(0,0,0,0.6))] dark:bg-grid-slate-800 pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900">Simple Pricing</h2>
-          <p className="mt-4 text-xl text-gray-600">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
+          >
+            Simple Pricing
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="mt-4 text-xl text-muted-foreground"
+          >
             Choose the plan that fits your needs
-          </p>
+          </motion.p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`rounded-2xl p-8 ${
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className={`rounded-2xl p-8 border ${
                 plan.highlighted
-                  ? "bg-white shadow-xl border-2 border-indigo-600"
-                  : "bg-white shadow-lg"
+                  ? "bg-card shadow-2xl border-primary ring-1 ring-primary relative overflow-hidden"
+                  : "bg-card shadow-lg border-border"
               }`}
             >
+              {plan.highlighted && (
+                <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg">
+                  POPULAR
+                </div>
+              )}
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-gray-900">
+                <h3 className="text-2xl font-bold text-foreground">
                   {plan.name}
                 </h3>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className="text-gray-600">/{plan.period}</span>
+                  <span className="text-4xl font-bold text-foreground">{plan.price}</span>
+                  <span className="text-muted-foreground">/{plan.period}</span>
                 </div>
-                <p className="mt-4 text-gray-600">{plan.description}</p>
+                <p className="mt-4 text-muted-foreground">{plan.description}</p>
               </div>
               <ul className="mt-8 space-y-4">
                 {plan.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-center">
-                    <Check className="h-5 w-5 text-indigo-600 mr-3" />
-                    <span className="text-gray-600">{feature}</span>
+                    <Check className="h-5 w-5 text-primary mr-3" />
+                    <span className="text-muted-foreground">{feature}</span>
                   </li>
                 ))}
               </ul>
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => handleButtonClick(plan.name)}
-                className={`mt-8 w-full py-3 px-6 rounded-lg font-medium ${
+                className={`mt-8 w-full py-3 px-6 rounded-lg font-medium transition-colors ${
                   plan.highlighted
-                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                    : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                 }`}
               >
                 {plan.buttonText}
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           ))}
         </div>
       </div>

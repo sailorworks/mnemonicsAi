@@ -118,9 +118,9 @@ Mnemonic: [Your simple, memorable sentence]
 Remember: Simpler is better. Think everyday situations, common objects, or familiar activities.`;
   }
 
-  private async callGeminiAPI(prompt: string): Promise<string> {
+  private async callGeminiAPI(prompt: string, retries = 3): Promise<string> {
     const url =
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent";
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent";
     const payload = {
       contents: [
         {
@@ -137,33 +137,65 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
       },
     };
 
-    try {
-      const response = await fetch(`${url}?key=${this.apiKey}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+    for (let attempt = 0; attempt < retries; attempt++) {
+      try {
+        const response = await fetch(`${url}?key=${this.apiKey}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `Gemini API Error: ${errorData.error?.message || "Unknown error"}`
+        if (!response.ok) {
+          const errorData = await response.json();
+          const errorMessage = errorData.error?.message || "Unknown error";
+
+          // Check if it's a rate limit / quota error (HTTP 429 or 403)
+          if (
+            (response.status === 429 || response.status === 403) &&
+            attempt < retries - 1
+          ) {
+            // Extract retry delay from error message if available, otherwise use exponential backoff
+            const retryMatch = errorMessage.match(
+              /retry in ([\d.]+)s/i
+            );
+            const waitTime = retryMatch
+              ? Math.ceil(parseFloat(retryMatch[1]) * 1000)
+              : Math.pow(2, attempt + 1) * 1000;
+
+            console.log(
+              `Rate limited. Retrying in ${waitTime / 1000}s... (attempt ${attempt + 1}/${retries})`
+            );
+            await new Promise((resolve) => setTimeout(resolve, waitTime));
+            continue;
+          }
+
+          throw new Error(`Gemini API Error: ${errorMessage}`);
+        }
+
+        const data = await response.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!text) {
+          throw new Error("Invalid response format from Gemini API");
+        }
+
+        return text;
+      } catch (error) {
+        if (attempt === retries - 1) {
+          throw error instanceof Error ? error : new Error(String(error));
+        }
+        // For non-API errors (network, etc.), retry with backoff
+        const waitTime = Math.pow(2, attempt + 1) * 1000;
+        console.log(
+          `Request failed. Retrying in ${waitTime / 1000}s... (attempt ${attempt + 1}/${retries})`
         );
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
-
-      const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (!text) {
-        throw new Error("Invalid response format from Gemini API");
-      }
-
-      return text;
-    } catch (error) {
-      throw error instanceof Error ? error : new Error(String(error));
     }
+
+    throw new Error("Failed to get response from Gemini API after all retries");
   }
 
   public async generateMnemonic(

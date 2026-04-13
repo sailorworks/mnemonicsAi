@@ -154,7 +154,9 @@ export default function RootLayout({
         itemScope
         itemType="https://schema.org/WebPage"
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <Toaster richColors position="top-center" />
       </body>
     </html>
