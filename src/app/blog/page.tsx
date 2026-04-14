@@ -1,12 +1,11 @@
 // blog/page.tsx
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
-import Link from "next/link";
-import { format } from "date-fns";
-import { urlForImage } from "@/sanity/lib/image";
-import Image from "next/image";
 import { Suspense } from "react";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import BlogList from "./BlogList";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
@@ -47,59 +46,33 @@ async function getPosts(): Promise<Post[]> {
   );
 }
 
-function PostCard({ post }: { post: Post }) {
-  return (
-    <article className="border rounded-lg p-6 hover:shadow-lg transition-shadow bg-white">
-      <Link href={`/blog/${post.slug.current}`}>
-        <div className="grid md:grid-cols-4 gap-4">
-          {post.mainImage && (
-            <div className="relative aspect-video md:col-span-1">
-              <Image
-                src={urlForImage(post.mainImage).url()}
-                alt={post.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 25vw"
-                className="object-cover rounded-lg"
-                loading="lazy"
-              />
-            </div>
-          )}
-          <div className="md:col-span-3">
-            <h2 className="text-2xl font-bold mb-2 text-gray-900">
-              {post.title}
-            </h2>
-            <div className="text-gray-700 mb-4">
-              {format(new Date(post.publishedAt), "MMMM dd, yyyy")}
-              {post.author && ` • ${post.author.name}`}
-            </div>
-            <p className="text-gray-800">{post.excerpt}</p>
-          </div>
-        </div>
-      </Link>
-    </article>
-  );
-}
 
-function PostGrid({ posts }: { posts: Post[] }) {
-  return (
-    <div className="grid gap-8">
-      {posts.map((post) => (
-        <PostCard key={post._id} post={post} />
-      ))}
-    </div>
-  );
-}
+// PostCard and PostGrid logic moved to BlogList.tsx
+
 
 export default async function BlogPage() {
   const posts = await getPosts();
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 mt-20">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900">Blog</h1>
-      <Suspense fallback={<div>Loading posts...</div>}>
-        <PostGrid posts={posts} />
-      </Suspense>
+    <div className="flex flex-col min-h-screen font-sans">
+      <Header />
+      <main className="relative flex-grow pt-24 pb-12">
+        {/* Dynamic Background */}
+        <div className="absolute inset-0 -z-10 bg-background fixed">
+          <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-20"></div>
+        </div>
+
+        <Suspense fallback={<div className="text-center py-20">Loading posts...</div>}>
+          <BlogList posts={posts} />
+        </Suspense>
+      </main>
+      <Footer />
     </div>
   );
 }
+
+export const revalidate = 3600;
 

@@ -23,13 +23,13 @@ const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="py-20 bg-gray-50">
+    <div className="py-24 bg-secondary/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
             Frequently Asked Questions
           </h2>
-          <p className="mt-4 text-gray-600">
+          <p className="mt-4 text-muted-foreground">
             Everything you need to know about using MnemonicsAI
           </p>
         </div>
@@ -38,17 +38,17 @@ const FAQSection = () => {
           {faqs.map((faq, index) => (
             <div key={index} className="mb-4">
               <button
-                className="w-full flex items-center justify-between p-6 bg-white rounded-xl hover:shadow-md transition-all duration-200 ease-in-out"
+                className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-xl hover:shadow-md transition-all duration-200 ease-in-out"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
-                <div className="flex items-center">
-                  <HelpCircle className="w-5 h-5 text-indigo-600 mr-4" />
-                  <span className="text-left text-lg font-semibold text-gray-900">
+                <div className="flex items-center text-left">
+                  <HelpCircle className="w-5 h-5 text-primary mr-4 flex-shrink-0" />
+                  <span className="text-lg font-semibold text-foreground">
                     {faq.question}
                   </span>
                 </div>
                 <ChevronDown
-                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                  className={`w-5 h-5 text-muted-foreground transition-transform duration-200 flex-shrink-0 ml-4 ${
                     openIndex === index ? "transform rotate-180" : ""
                   }`}
                 />
@@ -61,8 +61,8 @@ const FAQSection = () => {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="p-6 bg-white border-t border-gray-100 rounded-b-xl">
-                  <p className="text-gray-600">{faq.answer}</p>
+                <div className="p-6 bg-card border-x border-b border-border rounded-b-xl">
+                  <p className="text-muted-foreground">{faq.answer}</p>
                 </div>
               </div>
             </div>

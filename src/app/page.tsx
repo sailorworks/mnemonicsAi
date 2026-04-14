@@ -17,7 +17,7 @@ export default function Page() {
       <HeroSection />
       <ExamplesSection />
       <FeatureCards />
-      <PricingSection />
+      {/* <PricingSection /> */}
       <FAQSection />
       <Footer />
     </div>
