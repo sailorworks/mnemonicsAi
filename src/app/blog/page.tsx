@@ -7,8 +7,8 @@ import BlogList from "./BlogList";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-// Force static rendering
-export const dynamic = "force-static";
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
 
 interface Post {
   _id: string;

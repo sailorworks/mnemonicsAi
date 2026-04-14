@@ -7,7 +7,6 @@ interface ExamplePrompt {
 }
 
 export class MnemonicController {
-  private apiKey: string;
   private readonly examples: ExamplePrompt[] = [
     {
       context: "To remember the first ten elements of the periodic table",
@@ -45,11 +44,14 @@ export class MnemonicController {
   ];
 
   constructor() {
-    const apiKey = process.env.GEMINIAI_API_KEY;
+  }
+
+  private getApiKey(): string {
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY is not set in environment variables");
     }
-    this.apiKey = apiKey;
+    return apiKey;
   }
 
   private cleanInput(input: string): string[] {
@@ -119,6 +121,8 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
   }
 
   private async callGeminiAPI(prompt: string, retries = 3): Promise<string> {
+  private async callGeminiAPI(prompt: string): Promise<string> {
+    const apiKey = this.getApiKey();
     const url =
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent";
     const payload = {
@@ -190,6 +194,19 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
         const waitTime = Math.pow(2, attempt + 1) * 1000;
         console.log(
           `Request failed. Retrying in ${waitTime / 1000}s... (attempt ${attempt + 1}/${retries})`
+    try {
+      const response = await fetch(`${url}?key=${apiKey}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `Gemini API Error: ${errorData.error?.message || "Unknown error"}`
         );
         await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
@@ -225,4 +242,13 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
   }
 }
 
-export const mnemonicController = new MnemonicController();
+let _mnemonicController: MnemonicController | null = null;
+
+export const mnemonicController = {
+  get instance(): MnemonicController {
+    if (!_mnemonicController) {
+      _mnemonicController = new MnemonicController();
+    }
+    return _mnemonicController;
+  }
+};

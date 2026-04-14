@@ -127,7 +127,10 @@ const HeroSection = () => {
   }, [requestCount, user]);
 
   const handleGenerate = async () => {
-    if (!inputWords) return;
+    if (!inputWords) {
+      toast.error("Please enter a word first");
+      return;
+    }
 
     if (!user && requestCount >= MAX_FREE_REQUESTS) {
       toast.error("Free trial limit reached!", {
@@ -227,6 +230,22 @@ const HeroSection = () => {
                 value={inputWords}
                 onChange={(e) => setInputWords(e.target.value)}
               />
+            {/* Input card */}
+            <div className="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 md:p-6 mb-8 md:mb-12">
+              <div className="space-y-3 md:space-y-4">
+                <textarea
+                  className="w-full p-2.5 md:p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-sm md:text-base"
+                  rows={4}
+                  placeholder="Enter words or concepts to memorize (e.g., Mercury, Venus, Earth, Mars...)"
+                  value={inputWords}
+                  onChange={(e) => setInputWords(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleGenerate();
+                    }
+                  }}
+                />
 
               <div className="flex flex-col w-full md:w-auto items-end gap-2 shrink-0 self-end px-2 md:px-0 md:pr-2 pb-2 md:pb-2">
                 {!user && (

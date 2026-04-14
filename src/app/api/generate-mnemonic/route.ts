@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
       prompt: body.prompt,
     };
 
-    const result = await mnemonicController.generateMnemonic(mnemonicRequest);
+    const result = await mnemonicController.instance.generateMnemonic(mnemonicRequest);
     return NextResponse.json(result);
   } catch (error) {
     console.error("API Route Error:", error);
