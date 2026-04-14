@@ -121,7 +121,6 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
   }
 
   private async callGeminiAPI(prompt: string, retries = 3): Promise<string> {
-  private async callGeminiAPI(prompt: string): Promise<string> {
     const apiKey = this.getApiKey();
     const url =
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent";
@@ -143,7 +142,7 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
 
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
-        const response = await fetch(`${url}?key=${this.apiKey}`, {
+        const response = await fetch(`${url}?key=${apiKey}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -194,19 +193,6 @@ Remember: Simpler is better. Think everyday situations, common objects, or famil
         const waitTime = Math.pow(2, attempt + 1) * 1000;
         console.log(
           `Request failed. Retrying in ${waitTime / 1000}s... (attempt ${attempt + 1}/${retries})`
-    try {
-      const response = await fetch(`${url}?key=${apiKey}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `Gemini API Error: ${errorData.error?.message || "Unknown error"}`
         );
         await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
